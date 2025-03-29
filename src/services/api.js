@@ -9,7 +9,7 @@ export const login = async (credentials) => {
   return response.data;
 };
 
-export const getUsers = async (page = 1) => {
+export const getUsers = async (page) => {
   const response = await api.get(`/users?page=${page}`);
   return response.data;
 };

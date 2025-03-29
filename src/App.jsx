@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './components/login';
 import UserList from './components/UserList';
+import Homepage from './pages/homepage';
 
 const theme = createTheme({
   palette: {
@@ -32,7 +33,7 @@ function App() {
             path="/users"
             element={
               <PrivateRoute>
-                <UserList />
+                <Homepage />
               </PrivateRoute>
             }
           />
