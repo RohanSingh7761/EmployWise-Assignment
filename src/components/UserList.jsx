@@ -15,6 +15,7 @@ import {
   Box,
   IconButton,
   Pagination,
+  CircularProgress,
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { getUsers, updateUser, deleteUser } from '../services/api';
@@ -26,6 +27,7 @@ const UserList = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [deletingUserId, setDeletingUserId] = useState(null);
 
   useEffect(() => {
     fetchUsers(page);
@@ -62,12 +64,15 @@ const UserList = () => {
   };
 
   const handleDelete = async (id) => {
+    setDeletingUserId(id);
     try {
       await deleteUser(id);
       setUsers(users.filter(user => user.id !== id));
       toast.success('User deleted successfully');
     } catch (error) {
       toast.error('Failed to delete user');
+    } finally {
+      setDeletingUserId(null);
     }
   };
 
@@ -119,8 +124,13 @@ const UserList = () => {
                   <IconButton
                     color="error"
                     onClick={() => handleDelete(user.id)}
+                    disabled={deletingUserId === user.id}
                   >
-                    <DeleteIcon />
+                    {deletingUserId === user.id ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <DeleteIcon />
+                    )}
                   </IconButton>
                 </Box>
               </CardContent>
